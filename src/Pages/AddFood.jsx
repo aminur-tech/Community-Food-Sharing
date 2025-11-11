@@ -14,7 +14,7 @@ const AddFood = () => {
     const form = e.target;
     const name = form.name.value
     const Image = form.Image.value;
-    const quantity = form.quantity.value;
+    const quantity = parseInt(form.quantity.value);
     const location = form.location.value;
     const date = form.date.value;
     const notes = form.notes.value;
@@ -22,7 +22,7 @@ const AddFood = () => {
     const newFood = {
       food_image: Image,
       food_name: name ,
-      food_quantity: parseInt(quantity),
+      food_quantity: quantity,
       pickup_location: location,
       expire_date: date,
       additional_notes: notes,

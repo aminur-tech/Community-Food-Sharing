@@ -21,11 +21,10 @@ const Footer = () => {
         {/* Social Links */}
         <div className="flex gap-5 text-2xl">
           {[
-            { icon: <FaFacebook />, link: "https://facebook.com" },
-            { icon: <FaInstagram />, link: "https://instagram.com" },
-            { icon: <FaXTwitter />, link: "https://twitter.com" },
-            { icon: <FaGithub />, link: "https://github.com" },
-            { icon: <FaLinkedin />, link: "https://linkedin.com" },
+            { icon: <FaFacebook />, link: "https://web.facebook.com/aminur.rahman4078" },
+            { icon: <FaInstagram />, link: "https://www.instagram.com/aminur.rahman_4078" },
+            { icon: <FaXTwitter />, link: "https://x.com/Aminur4078" },
+            { icon: <FaGithub />, link: "https://github.com/aminur-tech" },
           ].map((item, i) => (
             <a
               key={i}
