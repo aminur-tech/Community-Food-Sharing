@@ -22,14 +22,14 @@ export const router = createBrowserRouter([
             {
                 path: '/',
                 Component: Home,
-                loader: () => fetch('http://localhost:3000/featured-foods'),
+                loader: () => fetch('https://plate-share-server-xi.vercel.app/featured-foods'),
                 HydrateFallback: Loading,
                 errorElement: <Error></Error>
             },
             {
                 path: '/available-foods',
                 Component: AvailableFoods,
-                loader: () => fetch('http://localhost:3000/foods'),
+                loader: () => fetch('https://plate-share-server-xi.vercel.app/foods'),
                 HydrateFallback: Loading,
                 errorElement: <Error></Error>
             },
@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
                     <PrivateRoutes>
                         <FoodDetails></FoodDetails>
                     </PrivateRoutes>,
-                loader: ({params})=>fetch(`http://localhost:3000/foods/${params.id}`),
+                loader: ({params})=>fetch(`https://plate-share-server-xi.vercel.app/foods/${params.id}`),
                 HydrateFallback: Loading,
                 errorElement: <Error></Error>
             },

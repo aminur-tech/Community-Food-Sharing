@@ -3,7 +3,8 @@ import { useLoaderData } from 'react-router';
 import { CalendarDays, MapPin, Package } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../Providers/AuthContext';
-import useAxiosSecure from '../Hooks/UseAxiosSecure';
+import useAxiosSecure from '../Hooks/useAxiosSecure';
+
 
 const FoodDetails = () => {
   const food = useLoaderData();
