@@ -116,7 +116,7 @@ const ManageMyFoods = () => {
                                 {foods.map((food, index) => (
                                     <tr key={food._id} className="hover:bg-sky-50">
                                         <td className="font-semibold text-gray-700">{index + 1}</td>
-                                        <td className="flex items-center gap-1 md:gap-3">
+                                        <td className="flex flex-col items-center md:flex-row md:gap-3">
                                             <img
                                                 src={food.food_image}
                                                 alt={food.food_name}
@@ -126,7 +126,7 @@ const ManageMyFoods = () => {
                                                 {food.food_name}
                                             </span>
                                         </td>
-                                        <td className="font-semibold text-gray-700 text-center md:text-left">{food.food_quantity}</td>
+                                        <td className="font-semibold text-gray-700 ">{food.food_quantity}</td>
                                         <td className="font-semibold text-gray-700">{food.pickup_location}</td>
                                         <td className="font-semibold text-gray-700">{food.expire_date}</td>
                                         <td>
