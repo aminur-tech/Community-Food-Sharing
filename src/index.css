@@ -1,4 +1,47 @@
 @import "tailwindcss";
+
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark;
 }
+
+/* Orange success toast */
+.toast-orange {
+  background: linear-gradient(to right, #f97316, #fb923c); /* orange gradient */
+  color: white; /* text color */
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+}
+
+/* Optional: hover effect */
+.toast-orange:hover {
+  opacity: 0.9;
+}
+
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 14s linear infinite;
+}
+
+/* Pause on hover (professional touch) */
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Disable on very small screens */
+@media (max-width: 480px) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+

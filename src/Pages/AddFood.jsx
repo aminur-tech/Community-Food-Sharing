@@ -9,26 +9,19 @@ import "react-datepicker/dist/react-datepicker.css";
 const AddFood = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-
   const [expireDate, setExpireDate] = useState(new Date());
 
   const handleAddFood = async (e) => {
     e.preventDefault();
-
     const form = e.target;
-    const name = form.name.value;
-    const Image = form.Image.value;
-    const quantity = Number(form.quantity.value);
-    const location = form.location.value;
-    const notes = form.notes.value;
 
     const newFood = {
-      food_image: Image,
-      food_name: name,
-      food_quantity: quantity,
-      pickup_location: location,
-      expire_date: expireDate.toISOString().split("T")[0], // YYYY-MM-DD
-      additional_notes: notes,
+      food_image: form.Image.value,
+      food_name: form.name.value,
+      food_quantity: Number(form.quantity.value),
+      pickup_location: form.location.value,
+      expire_date: expireDate.toISOString().split("T")[0],
+      additional_notes: form.notes.value,
       donator_name: user.displayName,
       donator_email: user.email,
       donator_image: user.photoURL,
@@ -38,149 +31,122 @@ const AddFood = () => {
     try {
       const res = await axiosSecure.post("/add-food", newFood);
       if (res.data.insertedId) {
-        toast.success("Food added successfully!");
+        toast("Food added successfully", {
+            className: "toast-orange"
+          }
+        );
         form.reset();
-        setExpireDate(new Date()); // Reset date picker
+        setExpireDate(new Date());
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to add food. Try again!");
+    } catch {
+      toast.error("Failed to add food");
     }
   };
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col justify-center relative">
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-sky-900/70 via-black/60 to-sky-800/70 backdrop-blur-sm"></div>
+    <div className="p-6 md:p-10 max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-semibold text-base-content">
+          Add New Food
+        </h1>
+        <p className="text-sm opacity-70 mt-1">
+          Share food details to make it available for requests.
+        </p>
+      </div>
 
-      {/* Form Container */}
-      <div className="relative z-10 flex justify-center items-center mt-10 mb-10">
-        <form
-          onSubmit={handleAddFood}
-          className="w-full max-w-lg bg-white/20 backdrop-blur-2xl p-10 rounded-3xl shadow-2xl border border-white/30 space-y-5"
-        >
-          <h2 className="text-4xl font-extrabold text-center text-white drop-shadow-lg mb-4">
-            🍽️ Add New Food
+      {/* Card */}
+      <form
+        onSubmit={handleAddFood}
+        className="bg-base-100 rounded-xl shadow border border-base-300 p-6 md:p-8 space-y-6"
+      >
+        {/* Donator Info */}
+        <section>
+          <h2 className="text-sm font-semibold opacity-80 mb-4">
+            Donator Information
           </h2>
 
-          <div className="divider text-white/70">Donator Info</div>
-
-          {/* Donator Info */}
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="label text-white font-semibold">Donator Name</label>
-              <input
-                type="text"
-                value={user?.displayName || ""}
-                readOnly
-                className="input input-bordered w-full bg-white/60 text-gray-700 font-semibold"
-              />
-            </div>
-            <div>
-              <label className="label text-white font-semibold">Donator Email</label>
-              <input
-                type="email"
-                value={user?.email || ""}
-                readOnly
-                className="input input-bordered w-full bg-white/60 text-gray-700 font-semibold"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="label text-white font-semibold">Donator Image URL</label>
+          <div className="grid md:grid-cols-3 gap-4">
             <input
-              type="text"
-              value={user?.photoURL || ""}
               readOnly
-              className="input input-bordered w-full bg-white/60 text-gray-700 font-semibold"
+              value={user?.displayName || ""}
+              className="input input-bordered w-full bg-base-200"
+            />
+            <input
+              readOnly
+              value={user?.email || ""}
+              className="input input-bordered w-full bg-base-200"
+            />
+            <input
+              readOnly
+              value={user?.photoURL || ""}
+              className="input input-bordered w-full bg-base-200"
             />
           </div>
+        </section>
 
-          <div className="divider text-white/70">Food Details</div>
+        {/* Food Details */}
+        <section>
+          <h2 className="text-sm font-semibold opacity-80 mb-4">
+            Food Details
+          </h2>
 
-          {/* Food Inputs */}
-          <div>
-            <label className="label text-white font-semibold">Food Name</label>
+          <div className="grid md:grid-cols-2 gap-4">
             <input
-              type="text"
               name="name"
-              placeholder="Enter food name"
-              className="input input-bordered w-full focus:ring-2 focus:ring-sky-400 transition-all placeholder:text-base-content/50"
+              placeholder="Food name"
               required
+              className="input input-bordered w-full"
             />
-          </div>
-
-          <div>
-            <label className="label text-white font-semibold">Food Image URL</label>
             <input
-              type="text"
               name="Image"
-              placeholder="Enter image URL"
-              className="input input-bordered w-full focus:ring-2 focus:ring-sky-400 transition-all placeholder:text-base-content/50"
+              placeholder="Image URL"
               required
+              className="input input-bordered w-full"
             />
-          </div>
-
-          <div>
-            <label className="label text-white font-semibold">Quantity</label>
             <input
               type="number"
               name="quantity"
-              placeholder="Enter quantity"
-              className="input input-bordered w-full focus:ring-2 focus:ring-sky-400 transition-all placeholder:text-base-content/50"
+              placeholder="Quantity"
               required
+              className="input input-bordered w-full"
             />
-          </div>
-
-          <div>
-            <label className="label text-white font-semibold">Pickup Location</label>
             <input
-              type="text"
               name="location"
-              placeholder="Enter pickup location"
-              className="input input-bordered w-full focus:ring-2 focus:ring-sky-400 transition-all placeholder:text-base-content/50"
+              placeholder="Pickup location"
               required
+              className="input input-bordered w-full"
             />
-          </div>
 
-          <div>
-            <label className="label text-white font-semibold mr-4">Expire Date</label>
             <DatePicker
               selected={expireDate}
               onChange={(date) => setExpireDate(date)}
-              className="input input-bordered w-full focus:ring-2 focus:ring-sky-400 transition-all placeholder:text-base-content/50"
-              dateFormat="yyyy-MM-dd"
               minDate={new Date()}
+              dateFormat="yyyy-MM-dd"
+              className="input input-bordered w-full bg-base-100"
               required
             />
           </div>
 
-          <div>
-            <label className="label text-white font-semibold">Additional Notes</label>
-            <textarea
-              name="notes"
-              placeholder="Write any notes here..."
-              className="textarea textarea-bordered w-full focus:ring-2 focus:ring-sky-400 transition-all placeholder:text-base-content/50"
-              required
-            ></textarea>
-          </div>
+          <textarea
+            name="notes"
+            rows={4}
+            placeholder="Additional notes"
+            required
+            className="textarea textarea-bordered w-full mt-4"
+          />
+        </section>
 
-          {/* Buttons */}
-          <div className="flex justify-end gap-4 pt-4">
-            <Link
-              to="/"
-              type="button"
-              className="btn btn-outline border-white text-white hover:bg-white hover:text-orange-300 hover:rounded-2xl transition-all"
-            >
-              Cancel
-            </Link>
-            <button className="btn border-0 bg-orange-500 hover:bg-orange-600 hover:rounded-2xl text-white font-semibold px-6">
-              Add Food
-            </button>
-          </div>
-        </form>
-      </div>
+        {/* Actions */}
+        <div className="flex justify-end gap-3 border-t border-base-300 pt-6">
+          <Link to="/" className="btn btn-ghost">
+            Cancel
+          </Link>
+          <button className="btn bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold px-6">
+            Add Food
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -13,6 +13,10 @@ import ManageMyFoods from '../Pages/ManageMyFoods';
 import MyFoodRequest from '../Pages/MyFoodRequest';
 import FoodDetails from '../Pages/FoodDetails';
 import AddFood from '../Pages/AddFood';
+import DashboardLayout from '../Layouts/DashboardLayout';
+import DashboardHome from '../Pages/DashboardHome';
+
+
 
 export const router = createBrowserRouter([
     {
@@ -22,29 +26,38 @@ export const router = createBrowserRouter([
             {
                 path: '/',
                 Component: Home,
-                loader: () => fetch('https://plate-share-server-xi.vercel.app/featured-foods'),
-                HydrateFallback: Loading,
+                // loader: () => fetch('https://plate-share-server-xi.vercel.app/featured-foods'),
+                // HydrateFallback: Loading,
                 errorElement: <Error></Error>
             },
             {
                 path: '/available-foods',
                 Component: AvailableFoods,
-                loader: () => fetch('https://plate-share-server-xi.vercel.app/foods'),
-                HydrateFallback: Loading,
+                // loader: () => fetch('https://plate-share-server-xi.vercel.app/foods'),
+
                 errorElement: <Error></Error>
             },
             {
                 path: '/foods/:id',
-                element:
-                    <PrivateRoutes>
-                        <FoodDetails></FoodDetails>
-                    </PrivateRoutes>,
-                loader: ({params})=>fetch(`https://plate-share-server-xi.vercel.app/foods/${params.id}`),
-                HydrateFallback: Loading,
+                element: <FoodDetails></FoodDetails>,
+                // loader: ({ params }) => fetch(`https://plate-share-server-xi.vercel.app/foods/${params.id}`),
+                // HydrateFallback: Loading,
                 errorElement: <Error></Error>
+            }
+        ])
+    },
+    {
+        Component: DashboardLayout,
+        path: 'dashboard',
+        errorElement: <Error></Error>,
+        children: ([
+            {
+                path: 'home',
+                Component: DashboardHome,
+
             },
             {
-                path: '/add-food',
+                path: 'add-food',
                 element:
                     <PrivateRoutes>
                         <AddFood></AddFood>
@@ -52,14 +65,14 @@ export const router = createBrowserRouter([
 
             },
             {
-                path: '/manage-my-foods',
+                path: 'manage-my-foods',
                 element:
                     <PrivateRoutes>
                         <ManageMyFoods></ManageMyFoods>
                     </PrivateRoutes>
             },
             {
-                path: '/my-food-request',
+                path: 'my-food-request',
                 element:
                     <PrivateRoutes>
                         <MyFoodRequest></MyFoodRequest>

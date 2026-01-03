@@ -1,96 +1,122 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { CheckCircle } from "lucide-react";
+import { 
+  CheckCircle2, 
+  Utensils, 
+  Users2, 
+  Globe2, 
+  Heart, 
+  Leaf, 
+  ArrowRight 
+} from "lucide-react";
 
 const OurMission = () => {
   return (
-    <section className="relative bg-gray-900 text-white py-24 overflow-hidden">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://i.ibb.co.com/5dPRcjn/compressed-vitaly-gariev-e-Ql-U4-7-PGHw-unsplash.jpg')",
-        }}
-      ></div>
+    <section className="relative overflow-hidden py-20 lg:py-28 bg-slate-900">
+      {/* Background with optimized overlay */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80" 
+          alt="Community support"
+          className="w-full h-full object-cover opacity-40"
+        />
+        <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900/90 to-transparent"></div>
+      </div>
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent"></div>
-
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="md:w-2/3"
-        >
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
-            Our Mission:{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-              Sharing Food, Spreading Smiles
-            </span>
-          </h2>
-
-          <p className="text-lg text-gray-200/90 mb-8 leading-relaxed">
-            We’re on a mission to reduce food waste and hunger by connecting those
-            with extra food to those who need it most. Through compassion and care,
-            we strive to create a world where no meal is wasted and everyone has access
-            to nourishment.
-          </p>
-
-          {/* ✨ Beautiful UL section */}
-          <motion.ul
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="flex flex-col lg:flex-row items-center gap-16">
+          
+          {/* Left Side: Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="space-y-4 mb-12"
+            className="lg:w-1/2"
           >
-            {[
-              "Encourage community-driven food sharing.",
-              "Support sustainable and eco-friendly practices.",
-              "Promote compassion and equality through kindness.",
-              "Empower local donors to make a real difference.",
-            ].map((text, i) => (
-              <li
-                key={i}
-                className="flex items-start gap-3 text-gray-200 hover:text-orange-400 transition-all duration-300"
-              >
-                <CheckCircle className="text-orange-500 w-6 h-6 flex-shrink-0 mt-1" />
-                <span>{text}</span>
-              </li>
-            ))}
-          </motion.ul>
+            <div className="flex items-center gap-2 mb-6">
+              <div className="h-px w-8 bg-orange-500"></div>
+              <span className="text-orange-500 font-bold tracking-widest uppercase text-xs">
+                Impact at a Glance
+              </span>
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-[1.1]">
+              Bridging the Gap Between <br />
+              <span className="text-orange-500 italic">Surplus</span> & <span className="text-orange-500 italic">Need</span>
+            </h2>
 
-          {/* Stats Section */}
-          <div className="grid sm:grid-cols-3 gap-6 mt-12 text-center">
+            <p className="text-lg text-slate-300 mb-8 leading-relaxed">
+              We believe that food is a fundamental right, not a privilege. By leveraging 
+              technology and community kindness, we’ve built a network that ensures 
+              no nutritious meal ever goes to waste.
+            </p>
+
+            {/* Icon-based Feature List */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 mb-10">
+              {[
+                { icon: <Heart size={18} />, text: "Kindness Driven" },
+                { icon: <Leaf size={18} />, text: "Zero Waste Goal" },
+                { icon: <Users2 size={18} />, text: "Local Impact" },
+                { icon: <CheckCircle2 size={18} />, text: "Verified Donors" },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3 text-slate-200 group cursor-default">
+                  <span className="text-orange-500 group-hover:scale-110 transition-transform">
+                    {item.icon}
+                  </span>
+                  <span className="font-medium">{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right Side: Interactive Stat Cards */}
+          <div className="lg:w-1/2 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { number: "5K+", label: "Meals Shared" },
-              { number: "1K+", label: "Active Donors" },
-              { number: "50+", label: "Communities Served" },
-            ].map((item, index) => (
+              { 
+                num: "5,400+", 
+                label: "Meals Shared", 
+                icon: <Utensils className="text-orange-500" />,
+                desc: "Direct impact on local families."
+              },
+              { 
+                num: "1,200+", 
+                label: "Hero Donors", 
+                icon: <Heart className="text-orange-500" />,
+                desc: "Businesses and individuals."
+              },
+              { 
+                num: "50+", 
+                label: "Cities", 
+                icon: <Globe2 className="text-orange-500" />,
+                desc: "Expanding our reach daily."
+              },
+              { 
+                num: "100%", 
+                label: "Free Access", 
+                icon: <CheckCircle2 className="text-orange-500" />,
+                desc: "No costs for those in need."
+              },
+            ].map((stat, idx) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-xl hover:bg-white/20 hover:scale-[1.03] transition-transform duration-300"
+                className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-orange-500/50 transition-all duration-500"
               >
-                <h3 className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent font-bold text-3xl mb-2">
-                  {item.number}
-                </h3>
-                <p className="text-gray-200">{item.label}</p>
+                <div className="bg-slate-800 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:bg-orange-500/20 transition-colors">
+                  {stat.icon}
+                </div>
+                <h3 className="text-3xl font-bold text-white mb-1">{stat.num}</h3>
+                <p className="text-orange-500 font-semibold text-sm mb-2">{stat.label}</p>
+                <p className="text-slate-400 text-xs leading-relaxed">{stat.desc}</p>
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
-
-      {/* Bottom Gradient Accent */}
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-red-500 to-orange-600"></div>
     </section>
   );
 };

@@ -1,11 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/effect-fade";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
 import { useState } from "react";
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Heart, Users, Utensils } from "lucide-react";
 
 const HeroSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -14,122 +15,125 @@ const HeroSection = () => {
     {
       id: 1,
       image: "https://i.ibb.co/Xx1KBpWp/s1.jpg",
-      title: "Make Every Meal Count",
-      description: "Join PlateShare and spread happiness through food."
+      title: "Share Your Surplus, Feed a Soul",
+      description:
+        "PlateShare connects generous donors with local communities to ensure no good food goes to waste.",
+      icon: <Heart className="text-orange-400" size={28} />,
     },
     {
       id: 2,
       image: "https://i.ibb.co/nsW6DTXh/s2.jpg",
-      title: "Community Food Sharing",
-      description: "Connect with neighbors and share meals together."
+      title: "Building Stronger Neighborhoods",
+      description:
+        "A simple meal shared is a step toward a stronger, more connected community for everyone.",
+      icon: <Users className="text-blue-400" size={28} />,
     },
     {
       id: 3,
       image: "https://i.ibb.co/jkFWqsDw/s3.jpg",
-      title: "Cozy Meals, Happy Hearts",
-      description: "Enjoy food and comfort in a friendly environment."
-    }
+      title: "Fresh Food for Everyone",
+      description:
+        "Access healthy, home-cooked, or surplus meals in your area with just a few clicks.",
+      icon: <Utensils className="text-green-400" size={28} />,
+    },
   ];
 
-  const titleVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
-  };
-
-  const descVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2, ease: "easeOut" } }
-  };
-
-  const buttonVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.6, delay: 0.4 } }
-  };
-
   return (
-    <Swiper
-      spaceBetween={30}
-      centeredSlides={true}
-      autoplay={{ delay: 5000, disableOnInteraction: false }}
-      pagination={{ 
-        clickable: true,
-        bulletClass: "swiper-pagination-bullet",
-        bulletActiveClass: "swiper-pagination-bullet-active"
-      }}
-      navigation={{
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      }}
-      modules={[Autoplay, Pagination, Navigation]}
-      onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-      className="relative group"
-    >
-      {slides.map((slide, index) => (
-        <SwiperSlide key={slide.id}>
-          <div
-            className="relative w-full h-[50vh] md:h-[80vh] flex items-center justify-center bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide.image})` }}
+    <section className="relative bg-base-200 overflow-hidden">
+      <div className="container mx-auto px-6 lg:px-12 py-16 flex flex-col lg:flex-row items-center gap-12 min-h-[80vh] relative z-10">
+
+        {/* LEFT CONTENT */}
+        <div className="w-full lg:w-[70%] flex flex-col justify-center order-2 lg:order-1">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 30 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-6"
+            >
+              {/* Glass Badge */}
+              <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-md px-5 py-2 rounded-full shadow-lg text-base-content">
+                <span className="p-1.5 bg-white/10 rounded-full flex items-center justify-center">
+                  {slides[activeIndex].icon}
+                </span>
+                <span className="uppercase tracking-widest text-[10px] font-black text-base-content/70">
+                  PlateShare Impact
+                </span>
+              </div>
+
+              {/* Heading */}
+              <h1 className="text-5xl md:text-6xl font-extrabold text-base-content leading-[1.1]">
+                {slides[activeIndex].title}
+              </h1>
+
+              {/* Description */}
+              <p className="text-lg text-base-content/70 leading-relaxed max-w-3xl">
+                {slides[activeIndex].description}
+              </p>
+
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link
+                  to="/available-foods"
+                  className="px-8 py-3 btn bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl transition-transform transform hover:scale-105 shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2"
+                >
+                  Find Food <ArrowRight size={18} />
+                </Link>
+                <Link
+                  to="/dashboard/add-food"
+                  className="px-8 py-3 btn border-2 border-orange-500 text-orange-500 font-bold rounded-2xl hover:bg-orange-500 hover:text-white transition-all flex items-center justify-center"
+                >
+                  Donate Now
+                </Link>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* RIGHT IMAGE */}
+        <div className="w-full lg:w-[30%] flex justify-center order-1 lg:order-2 relative">
+          <motion.div
+            initial={{ y: -10 }}
+            animate={{ y: [0, -8, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            className="relative w-full h-[350px] lg:h-[450px] rounded-3xl shadow-2xl overflow-hidden border-8 border-gray-800"
           >
-            {/* Improved Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-            
-            <div className="relative text-center text-white z-10 px-6 max-w-4xl">
-              <AnimatePresence mode="wait">
-                {activeIndex === index && (
-                  <>
-                    <motion.h1
-                      key={slide.id + "title"}
-                      variants={titleVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                      className="text-4xl md:text-7xl font-bold mb-4 drop-shadow-lg leading-tight"
-                    >
-                      {slide.title}
-                    </motion.h1>
+            <Swiper
+              effect={"fade"}
+              speed={1000}
+              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              modules={[Autoplay, EffectFade, Pagination]}
+              onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+              className="w-full h-full"
+            >
+              {slides.map((slide) => (
+                <SwiperSlide key={slide.id}>
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
 
-                    <motion.p
-                      key={slide.id + "desc"}
-                      variants={descVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                      className="text-lg md:text-2xl mb-8 drop-shadow-md font-light"
-                    >
-                      {slide.description}
-                    </motion.p>
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-orange-900/20 to-blue-900/20 blur-2xl opacity-40 pointer-events-none"></div>
 
-                    <motion.div
-                      key={slide.id + "btn"}
-                      variants={buttonVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <Link
-                        to="/available-foods"
-                        className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 px-8 hover:rounded-full shadow-lg transition-all duration-300 transform"
-                      >
-                        View All Foods
-                      </Link>
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
+            {/* Floating mini glow icon */}
+            <div className="absolute top-5 right-5 bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20">
+              <Heart className="text-orange-400" size={20} />
             </div>
-          </div>
-        </SwiperSlide>
-      ))}
+          </motion.div>
+        </div>
+      </div>
 
-      {/* Enhanced Navigation Buttons */}
-      <button className="swiper-button-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 !w-12 !h-12 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white backdrop-blur-sm"></button>
-      <button className="swiper-button-next absolute right-4 top-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 !w-12 !h-12 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white backdrop-blur-sm"></button>
+      {/* Floating accent glow behind hero */}
+      <div className={`absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-orange-500/20 to-transparent blur-[120px] opacity-30 pointer-events-none transition-all duration-1000`}></div>
+    </section>
 
-      {/* Enhanced Pagination */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 swiper-pagination"></div>
-    </Swiper>
   );
 };
 

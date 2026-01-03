@@ -1,48 +1,82 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router'; 
 import HeroSection from '../Component/HeroSection';
-import { Link, useLoaderData } from 'react-router';
 import FoodCard from '../Component/FoodCard';
 import HowItWorks from '../Component/HowItWorks';
 import OurMission from '../Component/OurMission';
+import SkeletonCard from '../Component/SkeletonCard';
 
 const Home = () => {
-    const foods = useLoaderData()
-    // console.log(foods)
-    return (
-        <div>
-            {/* hero section */}
-            <div>
-                <HeroSection></HeroSection>
-            </div>
-            {/* featured-foods */}
-            <div className='text-center mb-10 mt-20'>
-                <h2 className='text-3xl md:text-4xl font-bold text-base-content mb-3'>
-                    🍴 Featured Food Donations
-                </h2>
-                <p className='text-base-content/70 max-w-2xl mx-auto text-sm md:text-base'>
-                    Discover freshly prepared meals and surplus food generously donated by our community members.
-                    Each item is available for pickup before its expiration date — helping reduce food waste and feed those in need.
-                </p>
-            </div>
+  const [foods, setFoods] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(4); 
+  useEffect(() => {
+    fetch('https://plate-share-server-xi.vercel.app/foods')
+      .then(res => res.json())
+      .then(data => {
+        setFoods(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 mb-10'>
-                {
-                    foods.map(food => <FoodCard food={food} key={food._id}></FoodCard>)
-                }
-            </div>
-            <div className='flex justify-center'>
-                <Link to='/available-foods' className='btn bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold py-2.5  hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-md hover:shadow-lg hover:rounded-2xl'>Show All</Link>
-            </div>
+  return (
+    <main>
+      <HeroSection />
 
-            <div className='mt-20 mb-10'>
-                <HowItWorks></HowItWorks>
-            </div>
-
-            <div className='mt-20 mb-20'>
-                <OurMission></OurMission>
-            </div>
+      {/* Featured Foods Section */}
+      <section >
+        <div className="text-center mt-16 mb-10 px-4">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-base-content  mt-2 mb-4">
+            Featured Food Donations
+          </h2>
+          <p className="max-w-2xl mx-auto text-base-content/70 text-lg">
+            Discover freshly prepared meals and surplus food generously donated by our community members.
+          </p>
         </div>
-    );
+
+        {/* Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {loading
+            ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+            : foods.slice(0, visibleCount).map(food => <FoodCard key={food._id} food={food} />)
+          }
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
+          {visibleCount < foods.length && (
+            <button
+              onClick={() => setVisibleCount(prev => prev + 4)}
+              className="px-8 py-3 bg-white border-2 border-orange-500 text-orange-600 font-bold rounded-full hover:bg-orange-50 transition-all duration-300"
+            >
+              Load More
+            </button>
+          )}
+          
+          <Link 
+            to="/available-foods" 
+            className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-full shadow-lg hover:shadow-orange-200 hover:-translate-y-1 transition-all duration-300"
+          >
+            See All Available Foods
+          </Link>
+        </div>
+      </section>
+
+      {/* Informational Sections with Alternating Backgrounds */}
+      <section className="bg-white  mt-20">
+        <div>
+          <HowItWorks />
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div>
+          <OurMission />
+        </div>
+      </section>
+    </main>
+  );
 };
 
 export default Home;
