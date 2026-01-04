@@ -35,7 +35,7 @@ const FoodDetails = () => {
 
 
   useEffect(() => {
-    fetch(`http://localhost:3000/foods/${id}`)
+    fetch(`https://plate-share-server-xi.vercel.app/foods/${id}`)
       .then(res => res.json())
       .then(data => {
         setFood(data);

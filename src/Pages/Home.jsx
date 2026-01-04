@@ -12,7 +12,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(4); 
   useEffect(() => {
-    fetch('http://localhost:3000/foods')
+    fetch('https://plate-share-server-xi.vercel.app/foods')
       .then(res => res.json())
       .then(data => {
         setFoods(data);
